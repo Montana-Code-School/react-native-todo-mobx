@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { observer } from 'mobx-react'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 
-const TodoItem = ({ item, index, pressHandler }) => {
-  return (
-    <TouchableOpacity style={styles.container} onPress={() => pressHandler(index)}>
-      <Text style={[styles.text, item.completed ? styles.taskCompleted : {}]}>{item.task}</Text>
-      <Ionicon
-        name={item.completed ? 'ios-checkbox' : 'ios-square-outline'}
-        color={item.completed ? 'green' : 'red'}
-        size={20}
-      />
-    </TouchableOpacity>
-  );
-};
+@observer
+class TodoItem extends Component {
+  onPressTodo = () => {
+    const { item } = this.props
+    item.completed = !item.completed
+  }
+
+  render () {
+    const { item } = this.props
+    return (
+      <TouchableOpacity style={styles.container} onPress={this.onPressTodo}>
+        <Text style={[styles.text, item.completed ? styles.taskCompleted : {}]}>{item.task}</Text>
+        <Ionicon
+          name={item.completed ? 'ios-checkbox' : 'ios-square-outline'}
+          color={item.completed ? 'green' : 'red'}
+          size={20}
+        />
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
